@@ -1,0 +1,24 @@
+{
+  "name": "@notez/main",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@notez/graphql": "0.0.0",
+    "apollo-server-express": "^2.7.1",
+    "awilix": "^4.2.2",
+    "awilix-express": "^2.1.1",
+    "express": "^4.17.1",
+    "graphql": "^14.4.2"
+  },
+  "devDependencies": {
+    "apollo-server-testing": "^2.7.1",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1"
+  }
+}

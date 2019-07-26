@@ -1,0 +1,6 @@
+{
+  "watch": ["index.js", "src/", "../notez-graphql"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
