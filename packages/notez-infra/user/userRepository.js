@@ -4,6 +4,8 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   async add(user) {
     const userAttrs = toDatabase(user)
 
+    userAttrs.password = await cryptoService.hash(userAttrs.password)
+
     const dbUser = await sequelizeModels.User.create(userAttrs)
 
     return fromDatabase(dbUser)
@@ -35,5 +37,5 @@ const fromDatabase = (dbUser) =>
 const toDatabase = (user) => ({
   name: user.name,
   email: user.email,
-  password: user.email,
+  password: user.password,
 })
