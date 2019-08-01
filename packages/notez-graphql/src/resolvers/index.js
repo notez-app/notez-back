@@ -1,12 +1,9 @@
 const mutation = require('./mutation')
+const queries = require('./query')
 
 const resolvers = {
-  Query: {
-    hello: (p, a, { container, currentUserId }) => {
-      return `Value: ${container.testValue} #${currentUserId}`
-    },
-  },
   Mutation: mutation,
+  ...queries,
 }
 
 module.exports = resolvers
