@@ -40,6 +40,7 @@ container.register({
 container.register({
   sequelize: asValue(Sequelize.sequelize),
   sequelizeModels: asValue(Sequelize.models),
+  createUnitOfWork: asFunction(Sequelize.unitOfWork),
 
   userRepository: asFunction(userRepository),
 
