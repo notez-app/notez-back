@@ -1,3 +1,5 @@
+const { pascalCase } = require('change-case')
+
 exports.Query = {
   defaultWorkspace: async (p, _, { container }) => {
     return {
@@ -19,6 +21,6 @@ exports.Query = {
 
 exports.Block = {
   __resolveType: (block) => {
-    return 'Text'
+    return pascalCase(block.type)
   },
 }
