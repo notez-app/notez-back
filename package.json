@@ -1,21 +1,29 @@
 {
   "name": "@notez/backend",
   "private": true,
-  "scripts": {
-    "format": "prettier --write packages/**/*.js"
-  },
   "workspaces": [
     "packages/*"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
+  "scripts": {
+    "dev": "lerna run start --stream",
+    "build": "lerna run build --stream",
+    "start": "lerna run start --stream",
+    "db:setup": "yarn db:create && yarn db:migrate && yarn db:seed",
+    "db:create": "yarn sequelize db:create",
+    "db:migrate": "yarn sequelize db:migrate",
+    "db:seed": "yarn sequelize db:seed",
+    "sequelize": "lerna exec --scope @notez/infra -- yarn sequelize",
+    "format": "prettier --write packages/**/*.js"
   },
   "devDependencies": {
     "husky": "^3.0.1",
     "lerna": "^3.16.4",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "pretty-quick --staged"
+    }
   }
 }

@@ -15,13 +15,35 @@
 yarn
 ```
 
+## Setup
+
+Create your Sequelize config file based on the example config.
+
+```sh
+cp packages/notez-infra/sequelize/{config.example.js,config.js}
+```
+
+Then run the setup command to create and run the database migrations. **Don't forget** to have your database started as described on the next section.
+
+```sh
+yarn db:setup
+```
+
 ## Run
+
+First run Docker Compose file to start the database.
+
+```sh
+docker-compose up -d
+```
+
+Then run the development server.
 
 ```sh
 yarn dev
 ```
 
-## Run tests
+## Test
 
 ```sh
 yarn test
