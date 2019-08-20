@@ -3,6 +3,11 @@ const { attributes } = require('structure')
 const { Block } = require('./block')
 
 const Page = attributes({
+  icon: {
+    type: String,
+    empty: true,
+    required: false,
+  },
   name: {
     type: String,
     empty: true,

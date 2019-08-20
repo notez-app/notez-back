@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run start --stream",
+    "dev": "lerna run dev --stream",
     "build": "lerna run build --stream",
     "start": "lerna run start --stream",
     "db:setup": "yarn db:create && yarn db:migrate && yarn db:seed",
