@@ -8,6 +8,6 @@ module.exports = ({ createUnitOfWork, userRepository }) => async (userData) => {
   })
 
   return createUnitOfWork(async () => {
-    return userRepository.add(user)
+    return await userRepository.add(user)
   })
 }

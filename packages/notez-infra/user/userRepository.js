@@ -1,4 +1,8 @@
-const { User } = require('@notez/domain/user')
+const {
+  User,
+  UserNotFoundError,
+  EmailAlreadyInUseError,
+} = require('@notez/domain/user')
 
 module.exports = ({ sequelizeModels, cryptoService }) => ({
   async add(user) {
@@ -6,24 +10,44 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
 
     userAttrs.password = await cryptoService.hash(userAttrs.password)
 
-    const dbUser = await sequelizeModels.User.create(userAttrs)
+    try {
+      const dbUser = await sequelizeModels.User.create(userAttrs)
 
-    return fromDatabase(dbUser)
+      return fromDatabase(dbUser)
+    } catch (error) {
+      switch (error.name) {
+        case 'SequelizeUniqueConstraintError':
+          throw new EmailAlreadyInUseError()
+
+        default:
+          throw error
+      }
+    }
   },
 
   async fromAuth({ email, password }) {
-    const dbUser = await sequelizeModels.User.findOne({
-      where: { email },
-      rejectOnEmpty: true,
-    })
+    try {
+      const dbUser = await sequelizeModels.User.findOne({
+        where: { email },
+      })
 
-    const isPasswordRight = await cryptoService.compare(
-      password,
-      dbUser.password
-    )
+      const isPasswordRight = await cryptoService.compare(
+        password,
+        dbUser.password
+      )
 
-    if (isPasswordRight) {
+      if (!isPasswordRight) {
+        throw new UserNotFoundError()
+      }
+
       return fromDatabase(dbUser)
+    } catch (error) {
+      switch (error.name) {
+        case 'SequelizeEmptyResultError':
+          throw new UserNotFoundError()
+        default:
+          throw error
+      }
     }
   },
 })

@@ -13,7 +13,8 @@ const Sequelize = require('@notez/infra/sequelize')
 const { userRepository } = require('@notez/infra/user')
 const { cryptoService } = require('@notez/infra/crypto')
 
-const { createUser, loginUser } = require('@notez/app/user')
+const { createUser } = require('@notez/app/user')
+const { loginUser } = require('@notez/app/auth')
 
 // main
 container.register({

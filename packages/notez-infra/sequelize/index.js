@@ -12,7 +12,12 @@ const namespace = cls.createNamespace('sequelize-namespace')
 
 Sequelize.useCLS(namespace)
 
-const sequelize = new Sequelize(databaseConfig)
+const sequelize = new Sequelize({
+  ...databaseConfig,
+  define: {
+    rejectOnEmpty: true,
+  },
+})
 
 const models = loadModels({ sequelize })
 

@@ -1,0 +1,1 @@
+exports.DomainError = require('./DomainError')
