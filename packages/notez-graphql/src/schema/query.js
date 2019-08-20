@@ -22,6 +22,7 @@ module.exports = gql`
   }
 
   type Page {
+    icon: String
     name: String!
     blocks: [Block]!
   }
