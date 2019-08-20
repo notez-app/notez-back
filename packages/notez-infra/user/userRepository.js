@@ -12,17 +12,19 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   },
 
   async fromAuth({ email, password }) {
-    const hashedPassword = await cryptoService.hash(password)
-
     const dbUser = await sequelizeModels.User.findOne({
-      where: {
-        email,
-        password: hashedPassword,
-      },
+      where: { email },
       rejectOnEmpty: true,
     })
 
-    return fromDatabase(dbUser)
+    const isPasswordRight = await cryptoService.compare(
+      password,
+      dbUser.password
+    )
+
+    if (isPasswordRight) {
+      return fromDatabase(dbUser)
+    }
   },
 })
 
