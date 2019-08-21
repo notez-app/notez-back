@@ -5,9 +5,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run dev --stream",
-    "build": "lerna run build --stream",
-    "start": "lerna run start --stream",
+    "dev": "lerna exec --scope @notez/main -- yarn dev",
+    "start": "lerna exec --scope @notez/main -- yarn start",
+    "test": "lerna run test --stream -- --color",
     "db:setup": "yarn db:create && yarn db:migrate && yarn db:seed",
     "db:create": "yarn sequelize db:create",
     "db:migrate": "yarn sequelize db:migrate",
