@@ -3,6 +3,7 @@ const cls = require('continuation-local-storage')
 const loadModels = require('./loadModels')
 const config = require('./config')
 const unitOfWork = require('./unitOfWork')
+const createTestUtils = require('./testing')
 
 const env = process.env.NODE_ENV || 'development'
 
@@ -21,8 +22,11 @@ const sequelize = new Sequelize({
 
 const models = loadModels({ sequelize })
 
+const testing = createTestUtils(sequelize)
+
 module.exports = {
   sequelize,
   models,
   unitOfWork,
+  testing,
 }

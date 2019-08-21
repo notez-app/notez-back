@@ -26,21 +26,29 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   },
 
   async fromAuth({ email, password }) {
+    const dbUser = await this._getByFinder('findOne', { where: { email } })
+
+    const isPasswordRight = await cryptoService.compare(
+      password,
+      dbUser.password
+    )
+
+    if (!isPasswordRight) {
+      throw new UserNotFoundError()
+    }
+
+    return fromDatabase(dbUser)
+  },
+
+  async getById(id) {
+    const dbUser = await this._getByFinder('findByPk', id)
+
+    return fromDatabase(dbUser)
+  },
+
+  async _getByFinder(finderName, ...criteria) {
     try {
-      const dbUser = await sequelizeModels.User.findOne({
-        where: { email },
-      })
-
-      const isPasswordRight = await cryptoService.compare(
-        password,
-        dbUser.password
-      )
-
-      if (!isPasswordRight) {
-        throw new UserNotFoundError()
-      }
-
-      return fromDatabase(dbUser)
+      return await sequelizeModels.User[finderName](...criteria)
     } catch (error) {
       switch (error.name) {
         case 'SequelizeEmptyResultError':
