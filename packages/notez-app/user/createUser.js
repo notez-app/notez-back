@@ -7,7 +7,7 @@ module.exports = ({ createUnitOfWork, userRepository }) => async (userData) => {
     password: userData.password,
   })
 
-  return createUnitOfWork(async () => {
+  return await createUnitOfWork(async () => {
     return await userRepository.add(user)
   })
 }
