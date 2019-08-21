@@ -1,0 +1,1 @@
+exports.UserNotLoggedError = require('./UserNotLoggedError')
