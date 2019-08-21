@@ -1,4 +1,4 @@
-const { DomainError } = require('../error')
+const { DomainError } = require('../../error')
 
 class EmailAlreadyInUseError extends DomainError {
   constructor() {

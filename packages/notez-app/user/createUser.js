@@ -7,6 +7,8 @@ module.exports = ({ createUnitOfWork, userRepository }) => async (userData) => {
     password: userData.password,
   })
 
+  user.assertValidity()
+
   return await createUnitOfWork(async () => {
     return await userRepository.add(user)
   })
