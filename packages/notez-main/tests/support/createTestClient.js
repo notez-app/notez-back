@@ -1,9 +1,12 @@
 const { createTestClient } = require('@notez/graphql')
-const container = require('../../src/container')
+const container = require('../../container')
+const gql = String.raw
 
-module.exports = () =>
-  createTestClient({
+module.exports = () => ({
+  ...createTestClient({
     context: () => ({
       container: container.createScope().cradle,
     }),
-  })
+  }),
+  gql,
+})
