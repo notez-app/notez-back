@@ -26,8 +26,10 @@ describe('User :: userRepository', () => {
         expect(newUser).toHaveProperty('id')
         expect(newUser).toHaveProperty('name', 'User')
         expect(newUser).toHaveProperty('email', 'user@email.com')
-        expect(newUser).toHaveProperty('password')
-        expect(newUser.password).not.toBe('12345')
+
+        await expect(
+          cryptoService.compare('12345', newUser.password)
+        ).resolves.toBeTruthy()
 
         await expect(userRepository.getById(newUser.id)).resolves.toBeTruthy()
       })
