@@ -53,6 +53,7 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
       switch (error.name) {
         case 'SequelizeEmptyResultError':
           throw new UserNotFoundError()
+
         default:
           throw error
       }

@@ -1,1 +1,4 @@
-module.exports = ({ sequelize }) => (run) => sequelize.transaction(run)
+module.exports = ({ sequelize }) =>
+  function createUnitOfWork(run) {
+    return sequelize.transaction(run)
+  }

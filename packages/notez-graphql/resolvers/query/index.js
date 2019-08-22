@@ -3,7 +3,7 @@ const { UserNotLoggedError } = require('../../errors')
 const { workspaceFactory } = require('../../../notez-domain/workspace')
 
 exports.Query = {
-  currentUser: async (p, _, { container, currentUserId }) => {
+  async currentUser(p, _, { container, currentUserId }) {
     if (!currentUserId) {
       // temporary? Could be replaced by a directive
       throw new UserNotLoggedError()
@@ -12,7 +12,7 @@ exports.Query = {
     return await container.getUser(currentUserId)
   },
 
-  defaultWorkspace: async (p, _, { container }) => {
+  async defaultWorkspace(p, _, { container }) {
     // temporary, will be changed
     return workspaceFactory.getStartedWorkspace()
   },

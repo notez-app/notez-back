@@ -1,3 +1,4 @@
-module.exports = ({ userRepository }) => async (userId) => {
-  return await userRepository.getById(userId)
-}
+module.exports = ({ userRepository }) =>
+  async function getUser(userId) {
+    return await userRepository.getById(userId)
+  }
