@@ -7,8 +7,5 @@
   },
   "dependencies": {
     "@notez/domain": "0.0.0"
-  },
-  "devDependencies": {
-    "jest": "^24.9.0"
   }
 }
