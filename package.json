@@ -5,9 +5,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run start --stream",
-    "build": "lerna run build --stream",
-    "start": "lerna run start --stream",
+    "dev": "lerna exec --scope @notez/main -- yarn dev",
+    "start": "lerna exec --scope @notez/main -- yarn start",
+    "test": "lerna run test --stream -- --color",
     "db:setup": "yarn db:create && yarn db:migrate && yarn db:seed",
     "db:create": "yarn sequelize db:create",
     "db:migrate": "yarn sequelize db:migrate",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "husky": "^3.0.1",
+    "jest": "^24.9.0",
     "lerna": "^3.16.4",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1"

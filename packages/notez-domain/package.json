@@ -1,7 +1,6 @@
 {
   "name": "@notez/domain",
   "version": "0.0.0",
-  "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
     "structure": "^1.5.0"

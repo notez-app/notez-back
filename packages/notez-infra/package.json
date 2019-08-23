@@ -1,14 +1,15 @@
 {
   "name": "@notez/infra",
   "version": "0.0.0",
-  "main": "src/index.js",
   "license": "MIT",
   "scripts": {
+    "test": "jest --runInBand",
     "sequelize": "sequelize"
   },
   "dependencies": {
     "@notez/domain": "0.0.0",
     "bcrypt": "^3.0.6",
+    "continuation-local-storage": "^3.2.1",
     "pg": "^7.12.0",
     "sequelize": "^5.11.0"
   },

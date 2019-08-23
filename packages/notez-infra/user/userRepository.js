@@ -1,4 +1,8 @@
-const { User } = require('@notez/domain/user')
+const {
+  User,
+  UserNotFoundError,
+  EmailAlreadyInUseError,
+} = require('@notez/domain/user')
 
 module.exports = ({ sequelizeModels, cryptoService }) => ({
   async add(user) {
@@ -6,23 +10,54 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
 
     userAttrs.password = await cryptoService.hash(userAttrs.password)
 
-    const dbUser = await sequelizeModels.User.create(userAttrs)
+    try {
+      const dbUser = await sequelizeModels.User.create(userAttrs)
+
+      return fromDatabase(dbUser)
+    } catch (error) {
+      switch (error.name) {
+        case 'SequelizeUniqueConstraintError':
+          throw new EmailAlreadyInUseError()
+
+        default:
+          throw error
+      }
+    }
+  },
+
+  async fromAuth({ email, password }) {
+    const dbUser = await this._getByFinder('findOne', { where: { email } })
+
+    const isPasswordRight = await cryptoService.compare(
+      password,
+      dbUser.password
+    )
+
+    if (!isPasswordRight) {
+      throw new UserNotFoundError()
+    }
 
     return fromDatabase(dbUser)
   },
 
-  async fromAuth({ email, password }) {
-    const hashedPassword = await cryptoService.hash(password)
-
-    const dbUser = await sequelizeModels.User.findOne({
-      where: {
-        email,
-        password: hashedPassword,
-      },
-      rejectOnEmpty: true,
-    })
+  async getById(id) {
+    const dbUser = await this._getByFinder('findByPk', id)
 
     return fromDatabase(dbUser)
+  },
+
+  async _getByFinder(finderName, ...criteria) {
+    try {
+      return await sequelizeModels.User[finderName](...criteria)
+    } catch (error) {
+      switch (error.name) {
+        case 'SequelizeEmptyResultError':
+          throw new UserNotFoundError()
+
+        default:
+          throw error
+      }
+    }
   },
 })
 

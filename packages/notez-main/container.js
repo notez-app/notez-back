@@ -13,7 +13,8 @@ const Sequelize = require('@notez/infra/sequelize')
 const { userRepository } = require('@notez/infra/user')
 const { cryptoService } = require('@notez/infra/crypto')
 
-const { createUser, loginUser } = require('@notez/app/user')
+const { createUser, getUser } = require('@notez/app/user')
+const { loginUser } = require('@notez/app/auth')
 
 // main
 container.register({
@@ -28,6 +29,7 @@ container.register({
 container.register({
   createUser: asFunction(createUser),
   loginUser: asFunction(loginUser),
+  getUser: asFunction(getUser),
 })
 
 // GraphQL
@@ -40,6 +42,7 @@ container.register({
 container.register({
   sequelize: asValue(Sequelize.sequelize),
   sequelizeModels: asValue(Sequelize.models),
+  createUnitOfWork: asFunction(Sequelize.unitOfWork),
 
   userRepository: asFunction(userRepository),
 

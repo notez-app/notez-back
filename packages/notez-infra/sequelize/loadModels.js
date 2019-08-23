@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-module.exports = ({ sequelize }) => {
+module.exports = function loadSequelizeModels({ sequelize }) {
   const loaded = {}
   const baseFolder = path.join(__dirname, 'models')
 
