@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const cls = require('continuation-local-storage')
+const cls = require('cls-hooked')
 const loadModels = require('./loadModels')
 const config = require('./config')
 const unitOfWork = require('./unitOfWork')

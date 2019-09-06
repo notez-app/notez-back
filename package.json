@@ -8,6 +8,7 @@
     "dev": "lerna exec --scope @notez/main -- yarn dev",
     "start": "lerna exec --scope @notez/main -- yarn start",
     "test": "lerna run test --stream -- --color",
+    "console": "lerna exec --scope @notez/main -- yarn console",
     "db:setup": "yarn db:create && yarn db:migrate && yarn db:seed",
     "db:create": "yarn sequelize db:create",
     "db:migrate": "yarn sequelize db:migrate",

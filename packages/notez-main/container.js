@@ -11,10 +11,13 @@ const { createApolloServer } = require('@notez/graphql')
 
 const Sequelize = require('@notez/infra/sequelize')
 const { userRepository } = require('@notez/infra/user')
+const { workspaceRepository } = require('@notez/infra/workspace')
 const { cryptoService } = require('@notez/infra/crypto')
 
 const { createUser, getUser } = require('@notez/app/user')
 const { loginUser } = require('@notez/app/auth')
+
+const { workspaceFactory } = require('@notez/domain/workspace')
 
 // main
 container.register({
@@ -32,6 +35,10 @@ container.register({
   getUser: asFunction(getUser),
 })
 
+container.register({
+  workspaceFactory: asValue(workspaceFactory),
+})
+
 // GraphQL
 container.register({
   apolloServer: asFunction(createApolloServer),
@@ -45,6 +52,7 @@ container.register({
   createUnitOfWork: asFunction(Sequelize.unitOfWork),
 
   userRepository: asFunction(userRepository),
+  workspaceRepository: asFunction(workspaceRepository),
 
   cryptoService: asValue(cryptoService),
 })
