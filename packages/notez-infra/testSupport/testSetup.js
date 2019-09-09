@@ -1,4 +1,4 @@
-const { testing } = require('./sequelize')
+const { testing } = require('../sequelize')
 
 beforeEach(() => testing.cleanDatabase())
 
