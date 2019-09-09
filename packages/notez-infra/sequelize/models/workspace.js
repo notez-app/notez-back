@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Workspace.associate = function(models) {
     this.belongsTo(models.User)
+    this.hasMany(models.Page)
   }
 
   return Workspace

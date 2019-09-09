@@ -1,4 +1,7 @@
 'use strict'
+
+const { Block } = require('@notez/domain/page')
+
 module.exports = (sequelize, DataTypes) => {
   const Page = sequelize.define(
     'page',
@@ -11,21 +14,23 @@ module.exports = (sequelize, DataTypes) => {
   )
 
   Page.hasBlocks = function(models, blockSubtype, as) {
-    this.belongsToMany(models.TextBlock, {
+    return this.belongsToMany(models.TextBlock, {
       as,
       otherKey: 'blockSubtypeId',
       through: {
         model: models.Block,
-        scope: { blockSubtype },
+        scope: { blockSubtype: Block.BlockTypes[blockSubtype] },
       },
     })
   }
 
   Page.associate = function(models) {
-    this.belongsTo(models.Workspace)
-    this.hasMany(models.Block)
+    this.Workspace = this.belongsTo(models.Workspace)
+    this.Blocks = this.hasMany(models.Block)
 
-    this.hasBlocks(models, 'Text', 'textBlocks')
+    this.TextBlocks = this.hasBlocks(models, 'Text', 'textBlocks')
+
+    this.BlockSubtypes = [this.TextBlocks]
   }
 
   return Page

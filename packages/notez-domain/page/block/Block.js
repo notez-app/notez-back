@@ -1,7 +1,13 @@
-class Block {}
+class Block {
+  isText() {
+    return this.type === BlockTypes.Text
+  }
+}
 
-Block.BlockTypes = {
+const BlockTypes = {
   Text: 'TEXT',
 }
+
+Block.BlockTypes = BlockTypes
 
 module.exports = Block

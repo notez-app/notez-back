@@ -12,6 +12,7 @@ const { createApolloServer } = require('@notez/graphql')
 const Sequelize = require('@notez/infra/sequelize')
 const { userRepository } = require('@notez/infra/user')
 const { workspaceRepository } = require('@notez/infra/workspace')
+const { pageRepository } = require('@notez/infra/page')
 const { cryptoService } = require('@notez/infra/crypto')
 
 const { createUser, getUser } = require('@notez/app/user')
@@ -53,6 +54,7 @@ container.register({
 
   userRepository: asFunction(userRepository),
   workspaceRepository: asFunction(workspaceRepository),
+  pageRepository: asFunction(pageRepository),
 
   cryptoService: asValue(cryptoService),
 })

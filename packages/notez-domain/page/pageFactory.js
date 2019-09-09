@@ -1,5 +1,5 @@
 const Page = require('./Page')
-const { Text } = require('./block')
+const { Text } = require('./block/Blocks')
 
 const pageFactory = {
   getStartedPage() {
