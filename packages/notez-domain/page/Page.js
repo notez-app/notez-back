@@ -3,6 +3,7 @@ const { attributes } = require('structure')
 const Block = require('./block/Block')
 
 const Page = attributes({
+  id: Number,
   icon: {
     type: String,
     empty: true,

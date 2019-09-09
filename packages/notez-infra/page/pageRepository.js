@@ -30,6 +30,7 @@ const toDatabaseTextBlock = ({ content }) => ({ content })
 
 const fromDatabase = (dbPage) =>
   new Page({
+    id: dbPage.id,
     name: dbPage.name,
     icon: dbPage.icon,
     blocks: fromDatabaseBlocks(dbPage),
