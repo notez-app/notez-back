@@ -1,6 +1,10 @@
 class Block {
   isText() {
-    return this.type === BlockTypes.Text
+    return this.is(BlockTypes.Text)
+  }
+
+  is(blockType) {
+    return this.type === blockType
   }
 }
 

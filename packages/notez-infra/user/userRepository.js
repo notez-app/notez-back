@@ -6,12 +6,14 @@ const {
 
 module.exports = ({ sequelizeModels, cryptoService }) => ({
   async add(user) {
+    const { User } = sequelizeModels
+
     const userAttrs = toDatabase(user)
 
     userAttrs.password = await cryptoService.hash(userAttrs.password)
 
     try {
-      const dbUser = await sequelizeModels.User.create(userAttrs)
+      const dbUser = await User.create(userAttrs)
 
       return fromDatabase(dbUser)
     } catch (error) {
@@ -48,7 +50,8 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
 
   async _getByFinder(finderName, ...criteria) {
     try {
-      return await sequelizeModels.User[finderName](...criteria)
+      const { User } = sequelizeModels
+      return await User[finderName](...criteria)
     } catch (error) {
       switch (error.name) {
         case 'SequelizeEmptyResultError':

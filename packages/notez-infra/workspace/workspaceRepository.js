@@ -2,11 +2,14 @@ const { Workspace } = require('@notez/domain/workspace')
 
 module.exports = ({ sequelizeModels, pageRepository }) => ({
   async add(newWorkspace) {
+    const { Workspace } = sequelizeModels
+
     const workspaceAttrs = toDatabase(newWorkspace)
     const { pages = [] } = newWorkspace
 
-    const dbWorkspace = await sequelizeModels.Workspace.create(workspaceAttrs)
+    const dbWorkspace = await Workspace.create(workspaceAttrs)
 
+    // gotta be like this until Structure supports clone
     pages.forEach((page) => {
       page.workspaceId = dbWorkspace.id
     })
