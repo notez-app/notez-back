@@ -2,16 +2,11 @@ const Workspace = require('./Workspace')
 const { pageFactory } = require('../page')
 
 const workspaceFactory = {
-  blankWorkspace({ name }) {
-    return new Workspace({
-      name,
-      pages: [pageFactory.blankPage()],
-    })
-  },
-  getStartedWorkspace() {
+  getStartedWorkspace(attrs) {
     return new Workspace({
       name: 'Get Started',
       pages: [pageFactory.getStartedPage()],
+      ...attrs,
     })
   },
 }

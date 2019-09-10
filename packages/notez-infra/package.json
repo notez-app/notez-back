@@ -9,11 +9,14 @@
   "dependencies": {
     "@notez/domain": "0.0.0",
     "bcrypt": "^3.0.6",
-    "continuation-local-storage": "^3.2.1",
+    "change-case": "^3.1.0",
+    "cls-hooked": "^4.2.2",
     "pg": "^7.12.0",
-    "sequelize": "^5.11.0"
+    "sequelize": "^5.14.0"
   },
   "devDependencies": {
+    "chance": "^1.1.0",
+    "factory-girl": "^5.0.4",
     "sequelize-cli": "^5.5.0"
   }
 }

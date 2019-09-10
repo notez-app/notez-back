@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { pascalCase } = require('change-case')
 
 module.exports = function loadSequelizeModels({ sequelize }) {
   const loaded = {}
@@ -9,7 +10,7 @@ module.exports = function loadSequelizeModels({ sequelize }) {
     .filter((file) => !file.startsWith('.') && file.endsWith('.js'))
     .forEach((file) => {
       const model = sequelize['import'](path.join(baseFolder, file))
-      loaded[model.name] = model
+      loaded[pascalCase(model.name)] = model
     })
 
   Object.keys(loaded).forEach((modelName) => {

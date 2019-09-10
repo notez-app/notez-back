@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest"
+    "test": "jest",
+    "console": "node console/index.js"
   },
   "dependencies": {
     "@notez/app": "0.0.0",
+    "@notez/domain": "0.0.0",
     "@notez/graphql": "0.0.0",
     "@notez/infra": "0.0.0",
     "apollo-server-express": "^2.7.1",
