@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express')
 module.exports = gql`
   type Query {
     currentUser: User
-    defaultWorkspace: Workspace!
+    selectedWorkspace: Workspace!
     # workspace(id: Int): Workspace
   }
 

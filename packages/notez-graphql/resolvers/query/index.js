@@ -1,25 +1,15 @@
-const { pascalCase } = require('change-case')
-const { UserNotLoggedError } = require('../../errors')
-const { workspaceFactory } = require('../../../notez-domain/workspace')
+const fs = require('fs')
+const path = require('path')
 
-exports.Query = {
-  async currentUser(p, _, { container, currentUserId }) {
-    if (!currentUserId) {
-      // temporary? Could be replaced by a directive
-      throw new UserNotLoggedError()
-    }
+const baseFolder = __dirname
 
-    return await container.getUser(currentUserId)
-  },
+fs.readdirSync(baseFolder)
+  .filter(
+    (file) =>
+      file !== 'index.js' && !file.startsWith('.') && file.endsWith('.js')
+  )
+  .forEach((fileName) => {
+    const [typeName] = fileName.split('.')
 
-  async defaultWorkspace(p, _, { container }) {
-    // temporary, will be changed
-    return workspaceFactory.getStartedWorkspace()
-  },
-}
-
-exports.Block = {
-  __resolveType: (block) => {
-    return pascalCase(block.type)
-  },
-}
+    exports[typeName] = require(path.join(baseFolder, fileName))
+  })
