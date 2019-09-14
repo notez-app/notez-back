@@ -5,7 +5,7 @@ describe('User :: createUser', () => {
   describe('when user is valid', () => {
     it('creates user and get started namespace', async () => {
       const workspaceFactory = {
-        getStartedWorkspace: jest.fn(() => 'workspace'),
+        getStartedWorkspaceFor: jest.fn(() => 'workspace'),
       }
 
       const workspaceRepository = {
@@ -36,9 +36,9 @@ describe('User :: createUser', () => {
       expect(user).toHaveProperty('email', 'user@email.com')
       expect(user).toHaveProperty('password', 'pwd')
 
-      expect(workspaceFactory.getStartedWorkspace).toHaveBeenCalledWith({
-        userId: 42,
-      })
+      expect(workspaceFactory.getStartedWorkspaceFor).toHaveBeenCalledWith(
+        expect.any(User)
+      )
 
       expect(workspaceRepository.add).toHaveBeenCalledWith('workspace')
     })

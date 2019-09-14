@@ -8,9 +8,12 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   async add(user) {
     const { User } = sequelizeModels
 
-    const userAttrs = toDatabase(user)
+    user = user.clone({
+      password: null,
+      encryptedPassword: await cryptoService.hash(user.password),
+    })
 
-    userAttrs.password = await cryptoService.hash(userAttrs.password)
+    const userAttrs = toDatabase(user)
 
     try {
       const dbUser = await User.create(userAttrs)
@@ -51,6 +54,7 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   async _getByFinder(finderName, ...criteria) {
     try {
       const { User } = sequelizeModels
+
       return await User[finderName](...criteria)
     } catch (error) {
       switch (error.name) {
@@ -69,11 +73,12 @@ const fromDatabase = (dbUser) =>
     id: dbUser.id,
     name: dbUser.name,
     email: dbUser.email,
-    password: dbUser.password,
+    password: null,
+    encryptedPassword: dbUser.password,
   })
 
 const toDatabase = (user) => ({
   name: user.name,
   email: user.email,
-  password: user.password,
+  password: user.encryptedPassword,
 })

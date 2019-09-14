@@ -9,12 +9,13 @@ module.exports = ({ sequelizeModels, pageRepository }) => ({
 
     const dbWorkspace = await Workspace.create(workspaceAttrs)
 
-    // gotta be like this until Structure supports clone
-    pages.forEach((page) => {
-      page.workspaceId = dbWorkspace.id
-    })
+    const pagesWithWorkspace = pages.map((page) =>
+      page.clone({
+        workspaceId: dbWorkspace.id,
+      })
+    )
 
-    const persistedPages = await pageRepository.addMultiple(pages)
+    const persistedPages = await pageRepository.addMultiple(pagesWithWorkspace)
 
     return fromDatabase(dbWorkspace, persistedPages)
   },

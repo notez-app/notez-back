@@ -7684,10 +7684,10 @@ strong-log-transformer@^2.0.0:
     minimist "^1.2.0"
     through "^2.3.4"
 
-structure@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/structure/-/structure-1.6.0.tgz#844eae7f546ae2eeedd708628c7b1c871ac5b216"
-  integrity sha512-MpErxvsdPFfjn0ngEVxFSGAVAv873BelFzo5A9yfLyaQJDQUacez3z8J0v3Wsn3Kl0XTeIlYF1YMb5JUgpjrag==
+structure@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/structure/-/structure-1.7.0.tgz#f1f4722c45cf3dc571ae48d80d5460476243ad39"
+  integrity sha512-U2I6qpQwaCpLodMoYYQNs7i8KZ7P8cUoiPxZIF6qEsIrKWKM8jkWF0kzeHCNOuI3bnr1VyZcMJT3RXab7JHteQ==
   dependencies:
     joi "^10.2.0"
     lodash "^4.16.4"

@@ -1,6 +1,7 @@
 const makeUserRepository = require('./userRepository')
 const { models: sequelizeModels } = require('../sequelize')
 const { cryptoService } = require('../crypto')
+const { User } = require('@notez/domain/user')
 
 describe('User :: userRepository', () => {
   let userRepository
@@ -15,11 +16,11 @@ describe('User :: userRepository', () => {
   describe('#add', () => {
     describe('when there is no user with given email', () => {
       it('inserts, encrypts password and return the new user', async () => {
-        const user = {
+        const user = new User({
           name: 'User',
           email: 'user@email.com',
           password: '12345',
-        }
+        })
 
         const newUser = await userRepository.add(user)
 
@@ -28,7 +29,7 @@ describe('User :: userRepository', () => {
         expect(newUser).toHaveProperty('email', 'user@email.com')
 
         await expect(
-          cryptoService.compare('12345', newUser.password)
+          cryptoService.compare('12345', newUser.encryptedPassword)
         ).resolves.toBeTruthy()
 
         await expect(userRepository.getById(newUser.id)).resolves.toBeTruthy()
@@ -37,11 +38,11 @@ describe('User :: userRepository', () => {
 
     describe('when there is a user with given email already', () => {
       it('fails and throws already in use error', async () => {
-        const user = {
+        const user = new User({
           name: 'User',
           email: 'user@email.com',
           password: '12345',
-        }
+        })
 
         await userRepository.add(user)
 
@@ -57,11 +58,13 @@ describe('User :: userRepository', () => {
     describe('when user exists', () => {
       describe('when password is right', () => {
         it('returns the user', async () => {
-          const user = await userRepository.add({
-            name: 'User',
-            email: 'user@email.com',
-            password: '12345',
-          })
+          const user = await userRepository.add(
+            new User({
+              name: 'User',
+              email: 'user@email.com',
+              password: '12345',
+            })
+          )
 
           const userPromise = userRepository.fromAuth({
             email: 'user@email.com',
@@ -75,11 +78,13 @@ describe('User :: userRepository', () => {
 
       describe('when password is wrong', () => {
         it('fails and throws not found error', async () => {
-          await userRepository.add({
-            name: 'User',
-            email: 'user@email.com',
-            password: '12345',
-          })
+          await userRepository.add(
+            new User({
+              name: 'User',
+              email: 'user@email.com',
+              password: '12345',
+            })
+          )
 
           const userPromise = userRepository.fromAuth({
             email: 'user@email.com',

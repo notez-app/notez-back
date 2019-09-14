@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "license": "MIT",
   "dependencies": {
-    "structure": "^1.6.0"
+    "structure": "^1.7.0"
   }
 }
