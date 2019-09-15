@@ -9,13 +9,16 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       password: DataTypes.STRING,
-      selectedWorkspaceId: DataTypes.INTEGER,
     },
     {}
   )
 
   User.associate = function(models) {
     this.hasMany(models.Workspace)
+    this.SelectedWorkspace = this.belongsTo(models.Workspace, {
+      as: 'selectedWorkspace',
+      constraints: false,
+    })
   }
 
   return User

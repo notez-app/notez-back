@@ -17,6 +17,7 @@ const { cryptoService } = require('@notez/infra/crypto')
 
 const { createUser, getUser } = require('@notez/app/user')
 const { loginUser } = require('@notez/app/auth')
+const { getSelectedWorkspaceForUser } = require('@notez/app/workspace')
 
 const { workspaceFactory } = require('@notez/domain/workspace')
 
@@ -34,6 +35,7 @@ container.register({
   createUser: asFunction(createUser),
   loginUser: asFunction(loginUser),
   getUser: asFunction(getUser),
+  getSelectedWorkspaceForUser: asFunction(getSelectedWorkspaceForUser),
 })
 
 container.register({

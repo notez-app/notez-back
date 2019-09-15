@@ -105,12 +105,14 @@ const fromDatabase = (dbUser) =>
     email: dbUser.email,
     password: null,
     encryptedPassword: dbUser.password,
+    selectedWorkspaceId: dbUser.selectedWorkspaceId,
   })
 
 const toDatabase = (user) => ({
   name: user.name,
   email: user.email,
   password: user.encryptedPassword,
+  selectedWorkspaceId: user.selectedWorkspaceId,
 })
 
 module.exports.fromDatabase = fromDatabase

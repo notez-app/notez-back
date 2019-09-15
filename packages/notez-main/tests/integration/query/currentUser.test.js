@@ -17,7 +17,7 @@ describe('Query :: currentUser', () => {
         `,
       })
 
-      expect(res.data).toEqual({ currentUser: null })
+      expect(res.data).toBeNull()
     })
   })
 })

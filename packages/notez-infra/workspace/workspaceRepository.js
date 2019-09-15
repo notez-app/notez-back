@@ -21,6 +21,17 @@ module.exports = ({ sequelizeModels, pageRepository }) => ({
 
     return fromDatabase(dbWorkspace, persistedPages)
   },
+
+  async selectedWorkspaceForUser(userId) {
+    const { User } = sequelizeModels
+
+    const dbUser = await User.findByPk(userId, {
+      attributes: [],
+      include: [User.SelectedWorkspace],
+    })
+
+    return fromDatabase(dbUser.selectedWorkspace)
+  },
 })
 
 const toDatabase = (workspace) => ({
@@ -28,7 +39,7 @@ const toDatabase = (workspace) => ({
   userId: workspace.userId,
 })
 
-const fromDatabase = (dbWorkspace, pages) =>
+const fromDatabase = (dbWorkspace, pages = []) =>
   new Workspace({
     id: dbWorkspace.id,
     name: dbWorkspace.name,
