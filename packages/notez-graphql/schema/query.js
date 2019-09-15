@@ -1,9 +1,11 @@
 const { gql } = require('apollo-server-express')
 
 module.exports = gql`
+  directive @auth on FIELD_DEFINITION
+
   type Query {
-    currentUser: User
-    selectedWorkspace: Workspace!
+    currentUser: User! @auth
+    selectedWorkspace: Workspace! @auth
     # workspace(id: Int): Workspace
   }
 
