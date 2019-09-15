@@ -8,13 +8,15 @@ module.exports = ({
 }) =>
   async function createUser(userData) {
     return await createUnitOfWork(async () => {
-      const user = await userRepository.store(buildUser(userData))
+      let user = await userRepository.store(buildUser(userData))
 
       const workspace = await workspaceRepository.store(
         workspaceFactory.getStartedWorkspaceFor(user)
       )
 
-      return user
+      user = user.withSelectedWorkspace(workspace)
+
+      return await userRepository.store(user)
     })
   }
 

@@ -1,15 +1,18 @@
 const makeCreateUser = require('./createUser')
 const { User } = require('@notez/domain/user')
+const { Workspace } = require('@notez/domain/workspace')
 
 describe('User :: createUser', () => {
   describe('when user is valid', () => {
     it('creates user and get started namespace', async () => {
+      const workspace = new Workspace({ id: 42 })
+
       const workspaceFactory = {
-        getStartedWorkspaceFor: jest.fn(() => 'workspace'),
+        getStartedWorkspaceFor: jest.fn(() => workspace),
       }
 
       const workspaceRepository = {
-        store: jest.fn(),
+        store: jest.fn((w) => w),
       }
 
       const createUser = makeCreateUser({
@@ -35,12 +38,13 @@ describe('User :: createUser', () => {
       expect(user).toHaveProperty('name', 'name')
       expect(user).toHaveProperty('email', 'user@email.com')
       expect(user).toHaveProperty('password', 'pwd')
+      expect(user).toHaveProperty('selectedWorkspaceId', 42)
 
       expect(workspaceFactory.getStartedWorkspaceFor).toHaveBeenCalledWith(
         expect.any(User)
       )
 
-      expect(workspaceRepository.store).toHaveBeenCalledWith('workspace')
+      expect(workspaceRepository.store).toHaveBeenCalledWith(workspace)
     })
   })
 

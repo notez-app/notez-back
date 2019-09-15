@@ -2,6 +2,9 @@
   "name": "@notez/domain",
   "version": "0.0.0",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "structure": "^1.7.0"
   }

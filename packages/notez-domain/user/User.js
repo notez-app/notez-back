@@ -8,10 +8,19 @@ const User = attributes(
     email: { type: String, required: true, email: true },
     password: { type: String, empty: false, required: true, nullable: true },
     encryptedPassword: { type: String },
+    selectedWorkspaceId: { type: Number },
   },
   {
     strictValidationErrorClass: InvalidUserError,
   }
-)(class User {})
+)(
+  class User {
+    withSelectedWorkspace(workspace) {
+      return this.clone({
+        selectedWorkspaceId: workspace.id,
+      })
+    }
+  }
+)
 
 module.exports = User
