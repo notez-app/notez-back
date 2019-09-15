@@ -13,7 +13,7 @@ describe('User :: userRepository', () => {
     })
   })
 
-  describe('#add', () => {
+  describe('#store', () => {
     describe('when there is no user with given email', () => {
       it('inserts, encrypts password and return the new user', async () => {
         const user = new User({
@@ -22,7 +22,7 @@ describe('User :: userRepository', () => {
           password: '12345',
         })
 
-        const newUser = await userRepository.add(user)
+        const newUser = await userRepository.store(user)
 
         expect(newUser).toHaveProperty('id')
         expect(newUser).toHaveProperty('name', 'User')
@@ -44,9 +44,9 @@ describe('User :: userRepository', () => {
           password: '12345',
         })
 
-        await userRepository.add(user)
+        await userRepository.store(user)
 
-        await expect(userRepository.add(user)).rejects.toHaveProperty(
+        await expect(userRepository.store(user)).rejects.toHaveProperty(
           'code',
           'EMAIL_ALREADY_IN_USE'
         )
@@ -58,7 +58,7 @@ describe('User :: userRepository', () => {
     describe('when user exists', () => {
       describe('when password is right', () => {
         it('returns the user', async () => {
-          const user = await userRepository.add(
+          const user = await userRepository.store(
             new User({
               name: 'User',
               email: 'user@email.com',
@@ -78,7 +78,7 @@ describe('User :: userRepository', () => {
 
       describe('when password is wrong', () => {
         it('fails and throws not found error', async () => {
-          await userRepository.add(
+          await userRepository.store(
             new User({
               name: 'User',
               email: 'user@email.com',

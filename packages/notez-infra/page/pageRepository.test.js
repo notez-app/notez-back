@@ -7,14 +7,14 @@ describe('Page :: pageRepository', () => {
   const makePageRepository = (overrides) =>
     _makePageRepository({ sequelizeModels })
 
-  describe('#addMultiple', () => {
+  describe('#storeMultiple', () => {
     it('creates multiple pages with their blocks', async () => {
       const user = await factory.create('user')
       const workspace = await factory.create('workspace', { userId: user.id })
 
       const pageRepository = makePageRepository()
 
-      const pages = await pageRepository.addMultiple([
+      const pages = await pageRepository.storeMultiple([
         new Page({
           name: 'The one page',
           icon: '1️⃣',

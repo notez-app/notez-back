@@ -5,7 +5,7 @@ const {
 } = require('@notez/domain/user')
 
 module.exports = ({ sequelizeModels, cryptoService }) => ({
-  async add(user) {
+  async store(user) {
     const { User } = sequelizeModels
 
     user = user.clone({

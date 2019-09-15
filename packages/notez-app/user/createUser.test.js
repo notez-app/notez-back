@@ -9,13 +9,13 @@ describe('User :: createUser', () => {
       }
 
       const workspaceRepository = {
-        add: jest.fn(),
+        store: jest.fn(),
       }
 
       const createUser = makeCreateUser({
         createUnitOfWork: async (fn) => await fn(),
         userRepository: {
-          add: (user) =>
+          store: (user) =>
             new User({
               ...user.attributes,
               id: 42,
@@ -40,7 +40,7 @@ describe('User :: createUser', () => {
         expect.any(User)
       )
 
-      expect(workspaceRepository.add).toHaveBeenCalledWith('workspace')
+      expect(workspaceRepository.store).toHaveBeenCalledWith('workspace')
     })
   })
 
@@ -49,7 +49,7 @@ describe('User :: createUser', () => {
       const createUser = makeCreateUser({
         createUnitOfWork: async (fn) => await fn(),
         userRepository: {
-          add: (user) => user,
+          store: (user) => user,
         },
       })
 

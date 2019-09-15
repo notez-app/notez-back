@@ -1,7 +1,7 @@
 const { Page, Blocks } = require('@notez/domain/page')
 
 module.exports = ({ sequelizeModels }) => ({
-  async addMultiple(pages) {
+  async storeMultiple(pages) {
     const { Page } = sequelizeModels
 
     const pagesAttrs = pages.map(toDatabase)

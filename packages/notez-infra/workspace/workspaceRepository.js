@@ -1,7 +1,7 @@
 const { Workspace } = require('@notez/domain/workspace')
 
 module.exports = ({ sequelizeModels, pageRepository }) => ({
-  async add(newWorkspace) {
+  async store(newWorkspace) {
     const { Workspace } = sequelizeModels
 
     const workspaceAttrs = toDatabase(newWorkspace)
@@ -15,7 +15,9 @@ module.exports = ({ sequelizeModels, pageRepository }) => ({
       })
     )
 
-    const persistedPages = await pageRepository.addMultiple(pagesWithWorkspace)
+    const persistedPages = await pageRepository.storeMultiple(
+      pagesWithWorkspace
+    )
 
     return fromDatabase(dbWorkspace, persistedPages)
   },
