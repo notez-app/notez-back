@@ -66,4 +66,24 @@ describe('Workspace :: workspaceRepository', () => {
       })
     })
   })
+
+  describe('#selectedWorkspaceForUser', () => {
+    it('returns the workspace selected by the user', async () => {
+      const user = await factory.create('user')
+      const workspace = await factory.create('workspace', {
+        name: 'The Workspace [TM]',
+        userId: user.id,
+      })
+
+      await user.update({ selectedWorkspaceId: workspace.id })
+
+      const workspaceRepository = makeWorkspaceRepository()
+
+      const selectedWorkspace = await workspaceRepository.selectedWorkspaceForUser(
+        user.id
+      )
+
+      expect(selectedWorkspace).toHaveProperty('name', 'The Workspace [TM]')
+    })
+  })
 })
