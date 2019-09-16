@@ -39,6 +39,12 @@ describe('Page :: pageRepository', () => {
       expect(pages[0].id).toBeTruthy()
       expect(pages[1].id).toBeTruthy()
 
+      expect(pages[0].blocks[0].content).toEqual('abc')
+      expect(pages[0].blocks[1].content).toEqual('def')
+
+      expect(pages[1].blocks[0].content).toEqual('ghi')
+      expect(pages[1].blocks[1].content).toEqual('jkw')
+
       await expect(sequelizeModels.Page.count()).resolves.toEqual(2)
       await expect(sequelizeModels.Block.count()).resolves.toEqual(4)
       await expect(
