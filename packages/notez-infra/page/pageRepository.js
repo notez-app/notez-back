@@ -13,6 +13,19 @@ module.exports = ({ sequelizeModels }) => ({
 
     return dbPages.map(fromDatabase)
   },
+
+  async getAllFromWorkspace(workspaceId, { withBlocks }) {
+    const { Page } = sequelizeModels
+
+    const dbPages = await Page.findAll({
+      where: {
+        workspaceId,
+      },
+      include: withBlocks ? [...Page.BlockSubtypes] : [],
+    })
+
+    return dbPages.map((dbPage) => fromDatabase(dbPage), { withBlocks })
+  },
 })
 
 const toDatabase = (page) => ({
@@ -28,18 +41,18 @@ const toDatabaseBlocks = (blocks) => ({
 
 const toDatabaseTextBlock = ({ content }) => ({ content })
 
-const fromDatabase = (dbPage) =>
+const fromDatabase = (dbPage, { withBlocks = true } = {}) =>
   new Page({
     id: dbPage.id,
     name: dbPage.name,
     icon: dbPage.icon,
-    blocks: fromDatabaseBlocks(dbPage),
+    ...(withBlocks ? { blocks: fromDatabaseBlocks(dbPage) } : null),
   })
 
 const fromDatabaseBlocks = (dbPage) => {
   const textBlocks = dbPage.textBlocks.map(fromDatabaseTextBlock)
 
-  return [textBlocks]
+  return [...textBlocks]
 }
 
 const fromDatabaseTextBlock = ({ id, content }) =>
