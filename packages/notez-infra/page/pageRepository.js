@@ -11,10 +11,10 @@ module.exports = ({ sequelizeModels }) => ({
       returning: true,
     })
 
-    return dbPages.map(fromDatabase)
+    return dbPages.map((dbPage) => fromDatabase(dbPage, { withBlocks: true }))
   },
 
-  async getAllFromWorkspace(workspaceId, { withBlocks }) {
+  async getAllFromWorkspace(workspaceId, { withBlocks = true } = {}) {
     const { Page } = sequelizeModels
 
     const dbPages = await Page.findAll({
@@ -24,7 +24,7 @@ module.exports = ({ sequelizeModels }) => ({
       include: withBlocks ? [...Page.BlockSubtypes] : [],
     })
 
-    return dbPages.map((dbPage) => fromDatabase(dbPage), { withBlocks })
+    return dbPages.map((dbPage) => fromDatabase(dbPage, { withBlocks }))
   },
 })
 
@@ -41,7 +41,7 @@ const toDatabaseBlocks = (blocks) => ({
 
 const toDatabaseTextBlock = ({ content }) => ({ content })
 
-const fromDatabase = (dbPage, { withBlocks = true } = {}) =>
+const fromDatabase = (dbPage, { withBlocks }) =>
   new Page({
     id: dbPage.id,
     name: dbPage.name,

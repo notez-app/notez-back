@@ -53,4 +53,53 @@ describe('Page :: pageRepository', () => {
       await expect(sequelizeModels.TextBlock.count()).resolves.toEqual(4)
     })
   })
+
+  describe('#getAllFromWorkspace', () => {
+    let pageRepository
+    let workspace
+
+    beforeEach(async () => {
+      const user = await factory.create('user')
+      workspace = await factory.create('workspace', { userId: user.id })
+
+      pageRepository = makePageRepository()
+
+      const pages = await pageRepository.storeMultiple([
+        new Page({
+          name: 'The one page',
+          icon: '1️⃣',
+          workspaceId: workspace.id,
+          blocks: [
+            new Blocks.Text({ content: 'abc' }),
+            new Blocks.Text({ content: 'def' }),
+          ],
+        }),
+      ])
+    })
+
+    describe('when withBlocks is true', () => {
+      it('returns all the pages from a workspace with their blocks', async () => {
+        const pages = await pageRepository.getAllFromWorkspace(workspace.id, {
+          withBlocks: true,
+        })
+
+        expect(pages).toHaveLength(1)
+
+        expect(pages[0].blocks[0].content).toEqual('abc')
+        expect(pages[0].blocks[1].content).toEqual('def')
+      })
+    })
+
+    describe('when withBlocks is false', () => {
+      it('returns all the pages from a workspace without their blocks', async () => {
+        const pages = await pageRepository.getAllFromWorkspace(workspace.id, {
+          withBlocks: false,
+        })
+
+        expect(pages).toHaveLength(1)
+
+        expect(pages[0].blocks).toHaveLength(0)
+      })
+    })
+  })
 })
