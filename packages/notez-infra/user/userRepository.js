@@ -69,6 +69,10 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   },
 
   async getById(id) {
+    if (!id) {
+      throw new UserNotFoundError()
+    }
+
     const dbUser = await this._getByFinder('findByPk', id)
 
     return fromDatabase(dbUser)
