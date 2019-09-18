@@ -10,7 +10,11 @@ class AuthDirective extends SchemaDirectiveVisitor {
         throw new UserNotLoggedError()
       }
 
-      return await resolve(parent, args, context)
+      if (resolve) {
+        return await resolve(parent, args, context)
+      }
+
+      return parent[field.name]
     }
   }
 }
