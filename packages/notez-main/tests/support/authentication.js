@@ -1,4 +1,4 @@
-const createTestClient = require('./createTestClient')
+const createTestClient = require('./clientTestClient')
 
 const userAttributes = {
   name: 'Me',
@@ -42,11 +42,8 @@ exports.createUser = async function createUser(user) {
 const withToken = (token, action) => (request) =>
   action({
     ...request,
-    http: {
-      ...request.http,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ...(request.http || {}).headers,
-      },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...(request.http || {}).headers,
     },
   })

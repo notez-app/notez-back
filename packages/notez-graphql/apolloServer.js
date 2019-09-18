@@ -1,7 +1,13 @@
-const createServer = require('./createServer')
+const { ApolloServer } = require('apollo-server-express')
+const typeDefs = require('./schema')
+const resolvers = require('./resolvers')
+const schemaDirectives = require('./directives')
 
 module.exports = () =>
-  createServer({
+  new ApolloServer({
+    typeDefs,
+    resolvers,
+    schemaDirectives,
     context: async ({ req }) => {
       const context = {
         container: req.container.cradle,
