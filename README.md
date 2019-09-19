@@ -1,7 +1,11 @@
 <h1 align="center">notez-back 💻</h1>
 <p>
+  <a href="https://travis-ci.org/notez-app/notez-back">
+    <img src="https://travis-ci.org/notez-app/notez-back.svg?branch=master" />
+  </a>
+
   <a href="https://github.com/talyssonoc/notez-back/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
 
