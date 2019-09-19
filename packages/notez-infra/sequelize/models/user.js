@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function(models) {
     this.hasMany(models.Workspace)
+    this.SelectedWorkspace = this.belongsTo(models.Workspace, {
+      as: 'selectedWorkspace',
+      constraints: false,
+    })
   }
 
   return User

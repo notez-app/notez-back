@@ -1,7 +1,7 @@
 const { Page, Blocks } = require('@notez/domain/page')
 
 module.exports = ({ sequelizeModels }) => ({
-  async addMultiple(pages) {
+  async storeMultiple(pages) {
     const { Page } = sequelizeModels
 
     const pagesAttrs = pages.map(toDatabase)
@@ -11,7 +11,20 @@ module.exports = ({ sequelizeModels }) => ({
       returning: true,
     })
 
-    return dbPages.map(fromDatabase)
+    return dbPages.map((dbPage) => fromDatabase(dbPage, { withBlocks: true }))
+  },
+
+  async getAllFromWorkspace(workspaceId, { withBlocks = true } = {}) {
+    const { Page } = sequelizeModels
+
+    const dbPages = await Page.findAll({
+      where: {
+        workspaceId,
+      },
+      include: withBlocks ? [...Page.BlockSubtypes] : [],
+    })
+
+    return dbPages.map((dbPage) => fromDatabase(dbPage, { withBlocks }))
   },
 })
 
@@ -28,18 +41,18 @@ const toDatabaseBlocks = (blocks) => ({
 
 const toDatabaseTextBlock = ({ content }) => ({ content })
 
-const fromDatabase = (dbPage) =>
+const fromDatabase = (dbPage, { withBlocks }) =>
   new Page({
     id: dbPage.id,
     name: dbPage.name,
     icon: dbPage.icon,
-    blocks: fromDatabaseBlocks(dbPage),
+    ...(withBlocks ? { blocks: fromDatabaseBlocks(dbPage) } : null),
   })
 
 const fromDatabaseBlocks = (dbPage) => {
   const textBlocks = dbPage.textBlocks.map(fromDatabaseTextBlock)
 
-  return [textBlocks]
+  return [...textBlocks]
 }
 
 const fromDatabaseTextBlock = ({ id, content }) =>

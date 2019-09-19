@@ -9,7 +9,7 @@ fs.readdirSync(baseFolder)
       file !== 'index.js' && !file.startsWith('.') && file.endsWith('.js')
   )
   .forEach((fileName) => {
-    const [typeName] = fileName.split('.')
+    const [directiveName] = fileName.split('.')
 
-    exports[typeName] = require(path.join(baseFolder, fileName))
+    exports[directiveName] = require(path.join(baseFolder, fileName))
   })

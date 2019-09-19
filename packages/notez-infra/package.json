@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
     "sequelize": "sequelize"
   },
   "dependencies": {

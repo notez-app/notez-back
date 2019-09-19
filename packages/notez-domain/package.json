@@ -2,7 +2,11 @@
   "name": "@notez/domain",
   "version": "0.0.0",
   "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
   "dependencies": {
-    "structure": "^1.6.0"
+    "structure": "^1.7.0"
   }
 }

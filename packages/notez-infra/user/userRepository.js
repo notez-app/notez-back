@@ -5,17 +5,17 @@ const {
 } = require('@notez/domain/user')
 
 module.exports = ({ sequelizeModels, cryptoService }) => ({
-  async add(user) {
-    const { User } = sequelizeModels
-
-    const userAttrs = toDatabase(user)
-
-    userAttrs.password = await cryptoService.hash(userAttrs.password)
-
+  async store(user) {
     try {
-      const dbUser = await User.create(userAttrs)
+      let storedUser
 
-      return fromDatabase(dbUser)
+      if (this._isPersisted(user)) {
+        storedUser = await this._update(user)
+      } else {
+        storedUser = await this._add(user)
+      }
+
+      return fromDatabase(storedUser)
     } catch (error) {
       switch (error.name) {
         case 'SequelizeUniqueConstraintError':
@@ -25,6 +25,32 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
           throw error
       }
     }
+  },
+
+  _isPersisted(user) {
+    return Boolean(user.id)
+  },
+
+  async _add(user) {
+    const { User } = sequelizeModels
+
+    user = await this._withEncryptedPassword(user)
+
+    const userAttrs = toDatabase(user)
+
+    return await User.create(userAttrs)
+  },
+
+  async _update(user) {
+    const dbUser = await this._getByFinder('findByPk', user.id)
+
+    if (user.password) {
+      user = await this._withEncryptedPassword(user)
+    }
+
+    const userAttrs = toDatabase(user)
+
+    return await dbUser.update(userAttrs)
   },
 
   async fromAuth({ email, password }) {
@@ -43,6 +69,10 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   },
 
   async getById(id) {
+    if (!id) {
+      throw new UserNotFoundError()
+    }
+
     const dbUser = await this._getByFinder('findByPk', id)
 
     return fromDatabase(dbUser)
@@ -51,6 +81,7 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   async _getByFinder(finderName, ...criteria) {
     try {
       const { User } = sequelizeModels
+
       return await User[finderName](...criteria)
     } catch (error) {
       switch (error.name) {
@@ -62,6 +93,13 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
       }
     }
   },
+
+  async _withEncryptedPassword(user) {
+    return await user.clone({
+      password: null,
+      encryptedPassword: await cryptoService.hash(user.password),
+    })
+  },
 })
 
 const fromDatabase = (dbUser) =>
@@ -69,11 +107,16 @@ const fromDatabase = (dbUser) =>
     id: dbUser.id,
     name: dbUser.name,
     email: dbUser.email,
-    password: dbUser.password,
+    password: null,
+    encryptedPassword: dbUser.password,
+    selectedWorkspaceId: dbUser.selectedWorkspaceId,
   })
 
 const toDatabase = (user) => ({
   name: user.name,
   email: user.email,
-  password: user.password,
+  password: user.encryptedPassword,
+  selectedWorkspaceId: user.selectedWorkspaceId,
 })
+
+module.exports.fromDatabase = fromDatabase

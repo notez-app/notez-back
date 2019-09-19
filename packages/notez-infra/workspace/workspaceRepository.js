@@ -1,7 +1,7 @@
 const { Workspace } = require('@notez/domain/workspace')
 
 module.exports = ({ sequelizeModels, pageRepository }) => ({
-  async add(newWorkspace) {
+  async store(newWorkspace) {
     const { Workspace } = sequelizeModels
 
     const workspaceAttrs = toDatabase(newWorkspace)
@@ -9,14 +9,28 @@ module.exports = ({ sequelizeModels, pageRepository }) => ({
 
     const dbWorkspace = await Workspace.create(workspaceAttrs)
 
-    // gotta be like this until Structure supports clone
-    pages.forEach((page) => {
-      page.workspaceId = dbWorkspace.id
-    })
+    const pagesWithWorkspace = pages.map((page) =>
+      page.clone({
+        workspaceId: dbWorkspace.id,
+      })
+    )
 
-    const persistedPages = await pageRepository.addMultiple(pages)
+    const persistedPages = await pageRepository.storeMultiple(
+      pagesWithWorkspace
+    )
 
     return fromDatabase(dbWorkspace, persistedPages)
+  },
+
+  async selectedWorkspaceForUser(userId) {
+    const { User } = sequelizeModels
+
+    const dbUser = await User.findByPk(userId, {
+      attributes: [],
+      include: [User.SelectedWorkspace],
+    })
+
+    return fromDatabase(dbUser.selectedWorkspace)
   },
 })
 
@@ -25,7 +39,7 @@ const toDatabase = (workspace) => ({
   userId: workspace.userId,
 })
 
-const fromDatabase = (dbWorkspace, pages) =>
+const fromDatabase = (dbWorkspace, pages = []) =>
   new Workspace({
     id: dbWorkspace.id,
     name: dbWorkspace.name,

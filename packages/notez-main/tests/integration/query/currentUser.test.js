@@ -1,23 +1,36 @@
-const createTestClient = require('../../support/createTestClient')
+const {
+  createUser,
+  itRequiresValidationFor,
+  gql,
+} = require('../../support/authentication')
 
-// dummy test for now
 describe('Query :: currentUser', () => {
+  const CURRENT_USER = gql`
+    {
+      currentUser {
+        name
+        email
+      }
+    }
+  `
+
   describe('when user is logged', () => {
     it('returns the user data', async () => {
-      const { gql, query } = createTestClient()
-
-      const res = await query({
-        query: gql`
-          {
-            currentUser {
-              name
-              email
-            }
-          }
-        `,
+      const { query } = await createUser({
+        name: 'The User',
+        email: 'the@user.com',
       })
 
-      expect(res.data).toEqual({ currentUser: null })
+      const res = await query(CURRENT_USER)
+
+      expect(res.data).toEqual({
+        currentUser: {
+          name: 'The User',
+          email: 'the@user.com',
+        },
+      })
     })
   })
+
+  itRequiresValidationFor(CURRENT_USER)
 })
