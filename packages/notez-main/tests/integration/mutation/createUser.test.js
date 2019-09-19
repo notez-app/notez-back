@@ -75,4 +75,28 @@ describe('Query :: createUser', () => {
       })
     })
   })
+
+  describe('when email already exists', () => {
+    it('returns an error', async () => {
+      await createUser({ email: 'a@b.com' })
+
+      const { query } = createTestClient()
+
+      const res = await query(CREATE_USER, {
+        variables: {
+          name: 'The User',
+          email: 'a@b.com',
+          password: '12345',
+        },
+      })
+
+      expect(res.errors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: 'Email already in use',
+          }),
+        ])
+      )
+    })
+  })
 })
