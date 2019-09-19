@@ -1,0 +1,22 @@
+language: node_js
+
+cache:
+  yarn: true
+  directories:
+    - ~/.cache
+    - node_modules
+
+env:
+  global:
+    - NODE_ENV=test
+
+services:
+  - postgresql
+
+before_script:
+  - cp packages/notez-infra/sequelize/config.travis.js packages/notez-infra/sequelize/config.js
+  - yarn sequelize db:create --env=test
+  - yarn sequelize db:migrate --env=test
+
+script:
+  - yarn test:coverage
