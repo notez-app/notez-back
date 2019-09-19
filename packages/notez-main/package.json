@@ -7,6 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "jest --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
     "console": "node console/index.js"
   },
   "dependencies": {
