@@ -2,10 +2,10 @@ const supertest = require('supertest')
 const container = require('../../container')
 const gql = String.raw
 
-module.exports = () => {
+exports.createTestClient = () => {
   const { express } = container.resolve('server')
 
-  const sendRequest = ({ headers = {}, ...request }) => {
+  const sendRequest = (query, { headers = {}, variables = {} } = {}) => {
     const client = supertest(express)
       .post('/graphql')
       .set('Accept', 'application/json')
@@ -16,8 +16,8 @@ module.exports = () => {
     )
 
     const data = {
-      query: request.query || request.mutation,
-      variables: request.variables || {},
+      query,
+      variables,
     }
 
     return clientWithHeaders
@@ -32,3 +32,5 @@ module.exports = () => {
     mutate: sendRequest,
   }
 }
+
+exports.gql = gql

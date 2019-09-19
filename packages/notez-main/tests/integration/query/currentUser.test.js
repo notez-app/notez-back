@@ -1,24 +1,27 @@
-const { createUser } = require('../../support/authentication')
-const createTestClient = require('../../support/clientTestClient')
+const {
+  createUser,
+  itRequiresValidationFor,
+  gql,
+} = require('../../support/authentication')
 
 describe('Query :: currentUser', () => {
+  const CURRENT_USER = gql`
+    {
+      currentUser {
+        name
+        email
+      }
+    }
+  `
+
   describe('when user is logged', () => {
     it('returns the user data', async () => {
-      const { gql, query } = await createUser({
+      const { query } = await createUser({
         name: 'The User',
         email: 'the@user.com',
       })
 
-      const res = await query({
-        query: gql`
-          {
-            currentUser {
-              name
-              email
-            }
-          }
-        `,
-      })
+      const res = await query(CURRENT_USER)
 
       expect(res.data).toEqual({
         currentUser: {
@@ -29,28 +32,5 @@ describe('Query :: currentUser', () => {
     })
   })
 
-  describe('when user is not logged', () => {
-    it('returns an error', async () => {
-      const { gql, query } = createTestClient()
-
-      const res = await query({
-        query: gql`
-          {
-            currentUser {
-              name
-              email
-            }
-          }
-        `,
-      })
-
-      expect(res.data).toBeNull()
-
-      expect(res.errors).toEqual([
-        expect.objectContaining({
-          message: 'User is not logged',
-        }),
-      ])
-    })
-  })
+  itRequiresValidationFor(CURRENT_USER)
 })
