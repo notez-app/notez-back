@@ -11,7 +11,7 @@ module.exports = ({
       let user = await userRepository.store(buildUser(userData))
 
       const workspace = await workspaceRepository.store(
-        workspaceFactory.getStartedWorkspaceFor(user)
+        workspaceFactory.createDefaultWorkspaceFor(user)
       )
 
       user = user.withSelectedWorkspace(workspace)

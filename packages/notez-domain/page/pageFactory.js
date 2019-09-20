@@ -2,7 +2,7 @@ const Page = require('./Page')
 const { Text } = require('./block/Blocks')
 
 const pageFactory = {
-  getStartedPage() {
+  createGetStartedPage() {
     return new Page({
       icon: '⛰',
       name: 'Get Started',
@@ -25,7 +25,7 @@ const pageFactory = {
       ],
     })
   },
-  blankPage() {
+  createBlankPage() {
     return new Page({
       name: '',
       blocks: [new Text({ content: '' })],

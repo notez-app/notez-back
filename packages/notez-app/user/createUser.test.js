@@ -8,7 +8,7 @@ describe('User :: createUser', () => {
       const workspace = new Workspace({ id: 42 })
 
       const workspaceFactory = {
-        getStartedWorkspaceFor: jest.fn(() => workspace),
+        createDefaultWorkspaceFor: jest.fn(() => workspace),
       }
 
       const workspaceRepository = {
@@ -40,7 +40,7 @@ describe('User :: createUser', () => {
       expect(user).toHaveProperty('password', 'pwd')
       expect(user).toHaveProperty('selectedWorkspaceId', 42)
 
-      expect(workspaceFactory.getStartedWorkspaceFor).toHaveBeenCalledWith(
+      expect(workspaceFactory.createDefaultWorkspaceFor).toHaveBeenCalledWith(
         expect.any(User)
       )
 

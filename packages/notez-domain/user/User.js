@@ -15,6 +15,10 @@ const User = attributes(
   }
 )(
   class User {
+    get firstName() {
+      return this.name.split(' ')[0]
+    }
+
     withSelectedWorkspace(workspace) {
       return this.clone({
         selectedWorkspaceId: workspace.id,
