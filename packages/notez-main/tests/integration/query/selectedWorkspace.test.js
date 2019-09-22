@@ -15,7 +15,9 @@ describe('Query :: selectedWorkspace', () => {
 
   describe('when user has just been created', () => {
     it('returns the default workspace', async () => {
-      const { query } = await createUser()
+      const { query } = await createUser({
+        firstName: 'Me',
+      })
 
       const res = await query(SELECTED_WORKSPACE)
 

@@ -8,7 +8,9 @@ describe('Query :: currentUser', () => {
   const CURRENT_USER = gql`
     {
       currentUser {
-        name
+        fullName
+        firstName
+        lastName
         email
       }
     }
@@ -17,7 +19,8 @@ describe('Query :: currentUser', () => {
   describe('when user is logged', () => {
     it('returns the user data', async () => {
       const { query } = await createUser({
-        name: 'The User',
+        firstName: 'The',
+        lastName: 'User',
         email: 'the@user.com',
       })
 
@@ -25,7 +28,9 @@ describe('Query :: currentUser', () => {
 
       expect(res.data).toEqual({
         currentUser: {
-          name: 'The User',
+          fullName: 'The User',
+          firstName: 'The',
+          lastName: 'User',
           email: 'the@user.com',
         },
       })

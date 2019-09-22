@@ -89,6 +89,7 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
           throw new UserNotFoundError()
 
         default:
+          console.log('HERE!!!')
           throw error
       }
     }
@@ -105,7 +106,8 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
 const fromDatabase = (dbUser) =>
   new User({
     id: dbUser.id,
-    name: dbUser.name,
+    firstName: dbUser.firstName,
+    lastName: dbUser.lastName,
     email: dbUser.email,
     password: null,
     encryptedPassword: dbUser.password,
@@ -113,7 +115,8 @@ const fromDatabase = (dbUser) =>
   })
 
 const toDatabase = (user) => ({
-  name: user.name,
+  firstName: user.firstName,
+  lastName: user.lastName,
   email: user.email,
   password: user.encryptedPassword,
   selectedWorkspaceId: user.selectedWorkspaceId,

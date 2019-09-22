@@ -5,7 +5,8 @@ describe('Query :: createUser', () => {
   describe('when all data are valid', () => {
     it('returns the token', async () => {
       const { token } = await createUser({
-        name: 'The User',
+        firstName: 'The',
+        lastName: 'User',
         email: 'the@user.com',
         password: '12345',
       })
@@ -33,13 +34,14 @@ describe('Query :: createUser', () => {
 
         const res = await query(CREATE_USER, {
           variables: {
-            name: '',
+            firstName: '',
+            lastName: 'User',
             email: 'the@user.com',
             password: '12345',
           },
         })
 
-        assertInvalidUserError(res, 'name')
+        assertInvalidUserError(res, 'firstName')
       })
     })
 
@@ -49,7 +51,8 @@ describe('Query :: createUser', () => {
 
         const res = await query(CREATE_USER, {
           variables: {
-            name: 'The User',
+            firstName: 'The',
+            lastName: 'User',
             email: '',
             password: '12345',
           },
@@ -65,7 +68,8 @@ describe('Query :: createUser', () => {
 
         const res = await query(CREATE_USER, {
           variables: {
-            name: 'The User',
+            firstName: 'The',
+            lastName: 'User',
             email: 'the@user.com',
             password: '',
           },
@@ -84,7 +88,8 @@ describe('Query :: createUser', () => {
 
       const res = await query(CREATE_USER, {
         variables: {
-          name: 'The User',
+          firstName: 'The',
+          lastName: 'User',
           email: 'a@b.com',
           password: '12345',
         },

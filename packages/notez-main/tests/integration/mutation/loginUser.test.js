@@ -14,7 +14,8 @@ describe('Query :: loginUser', () => {
     describe('when password is right', () => {
       it('returns the token', async () => {
         const { mutate } = await createUser({
-          name: 'The User',
+          firstName: 'The',
+          lastName: 'User',
           email: 'the@user.com',
           password: '12345',
         })
@@ -30,7 +31,8 @@ describe('Query :: loginUser', () => {
     describe('when password is wrong', () => {
       it('returns an error', async () => {
         const { mutate } = await createUser({
-          name: 'The User',
+          firstName: 'The',
+          lastName: 'User',
           email: 'the@user.com',
           password: '12345',
         })

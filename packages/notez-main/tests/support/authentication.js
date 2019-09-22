@@ -1,7 +1,8 @@
 const { createTestClient, gql } = require('./createTestClient')
 
 const userAttributes = {
-  name: 'Me',
+  firstName: 'The',
+  lastName: 'User',
   email: 'me@email.com',
   password: '12345',
 }
@@ -9,8 +10,18 @@ const userAttributes = {
 exports.gql = gql
 
 const CREATE_USER = gql`
-  mutation CreateUser($name: String!, $email: String!, $password: String!) {
-    createUser(name: $name, email: $email, password: $password) {
+  mutation CreateUser(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    createUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+    ) {
       token
     }
   }

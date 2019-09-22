@@ -13,4 +13,15 @@ describe('User', () => {
       )
     })
   })
+
+  describe('#fullName', () => {
+    it('concatenates first and last name', () => {
+      const user = new User({
+        firstName: 'My',
+        lastName: 'Self',
+      })
+
+      expect(user.fullName).toEqual('My Self')
+    })
+  })
 })

@@ -21,7 +21,8 @@ describe('User :: userRepository', () => {
       describe('when there is no user with given email', () => {
         it('creates, encrypts password and return the new user', async () => {
           const user = new User({
-            name: 'User',
+            firstName: 'User',
+            lastName: 'Name',
             email: 'user@email.com',
             password: '12345',
           })
@@ -29,7 +30,8 @@ describe('User :: userRepository', () => {
           const newUser = await userRepository.store(user)
 
           expect(newUser).toHaveProperty('id')
-          expect(newUser).toHaveProperty('name', 'User')
+          expect(newUser).toHaveProperty('firstName', 'User')
+          expect(newUser).toHaveProperty('lastName', 'Name')
           expect(newUser).toHaveProperty('email', 'user@email.com')
 
           await expect(
@@ -43,7 +45,8 @@ describe('User :: userRepository', () => {
       describe('when there is a user with given email already', () => {
         it('fails and throws already in use error', async () => {
           const user = new User({
-            name: 'User',
+            firstName: 'User',
+            lastName: 'Name',
             email: 'user@email.com',
             password: '12345',
           })
@@ -63,7 +66,8 @@ describe('User :: userRepository', () => {
 
       beforeEach(async () => {
         dbUser = await factory.create('user', {
-          name: 'Me',
+          firstName: 'The',
+          lastName: 'User',
           email: 'me@email.com',
           password: '123',
         })
@@ -72,17 +76,18 @@ describe('User :: userRepository', () => {
       describe('when non-password attribute is changed', () => {
         it('updates only the attribute in the database', async () => {
           const user = fromDatabase(dbUser).clone({
-            name: 'New name',
+            lastName: 'Person',
           })
 
           const updatedUser = await userRepository.store(user)
 
-          expect(updatedUser).toHaveProperty('name', 'New name')
+          expect(updatedUser).toHaveProperty('firstName', 'The')
+          expect(updatedUser).toHaveProperty('lastName', 'Person')
           expect(updatedUser).toHaveProperty('email', 'me@email.com')
           expect(updatedUser).toHaveProperty('encryptedPassword', '123')
           await expect(dbUser.reload()).resolves.toHaveProperty(
-            'name',
-            'New name'
+            'lastName',
+            'Person'
           )
         })
       })
@@ -95,7 +100,8 @@ describe('User :: userRepository', () => {
 
           const updatedUser = await userRepository.store(user)
 
-          expect(updatedUser.name).toEqual('Me')
+          expect(updatedUser.firstName).toEqual('The')
+          expect(updatedUser.lastName).toEqual('User')
           expect(updatedUser.email).toEqual('me@email.com')
 
           await expect(
@@ -108,7 +114,8 @@ describe('User :: userRepository', () => {
             cryptoService.compare('new password', dbUser.password)
           ).resolves.toBeTruthy()
 
-          await expect(dbUser).toHaveProperty('name', 'Me')
+          expect(dbUser).toHaveProperty('firstName', 'The')
+          expect(dbUser).toHaveProperty('lastName', 'User')
         })
       })
 
@@ -155,7 +162,8 @@ describe('User :: userRepository', () => {
         it('returns the user', async () => {
           const user = await userRepository.store(
             new User({
-              name: 'User',
+              firstName: 'User',
+              lastName: 'Name',
               email: 'user@email.com',
               password: '12345',
             })
@@ -167,7 +175,12 @@ describe('User :: userRepository', () => {
           })
 
           await expect(userPromise).resolves.toHaveProperty('id', user.id)
-          await expect(userPromise).resolves.toHaveProperty('email', user.email)
+          await expect(userPromise).resolves.toHaveProperty('firstName', 'User')
+          await expect(userPromise).resolves.toHaveProperty('lastName', 'Name')
+          await expect(userPromise).resolves.toHaveProperty(
+            'email',
+            'user@email.com'
+          )
         })
       })
 
@@ -175,7 +188,8 @@ describe('User :: userRepository', () => {
         it('fails and throws not found error', async () => {
           await userRepository.store(
             new User({
-              name: 'User',
+              firstName: 'User',
+              lastName: 'Name',
               email: 'user@email.com',
               password: '12345',
             })
