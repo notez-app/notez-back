@@ -14,14 +14,16 @@ describe('Query :: selectedWorkspace', () => {
   `
 
   describe('when user has just been created', () => {
-    it('returns the the Get Started workspace', async () => {
-      const { query } = await createUser()
+    it('returns the default workspace', async () => {
+      const { query } = await createUser({
+        firstName: 'Me',
+      })
 
       const res = await query(SELECTED_WORKSPACE)
 
       expect(res.data).toEqual({
         selectedWorkspace: {
-          name: 'Get Started',
+          name: 'Me',
         },
       })
     })

@@ -14,7 +14,9 @@ module.exports = gql`
   }
 
   type User {
-    name: String!
+    fullName: String!
+    firstName: String!
+    lastName: String!
     email: String!
   }
 

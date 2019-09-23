@@ -11,7 +11,7 @@ module.exports = ({
       let user = await userRepository.store(buildUser(userData))
 
       const workspace = await workspaceRepository.store(
-        workspaceFactory.getStartedWorkspaceFor(user)
+        workspaceFactory.createDefaultWorkspaceFor(user)
       )
 
       user = user.withSelectedWorkspace(workspace)
@@ -22,7 +22,8 @@ module.exports = ({
 
 const buildUser = (userData) =>
   User.buildStrict({
-    name: userData.name,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
     email: userData.email,
     password: userData.password,
   })

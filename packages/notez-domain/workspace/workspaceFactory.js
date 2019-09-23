@@ -2,10 +2,10 @@ const Workspace = require('./Workspace')
 const { pageFactory } = require('../page')
 
 const workspaceFactory = {
-  getStartedWorkspaceFor(user) {
+  createDefaultWorkspaceFor(user) {
     return new Workspace({
-      name: 'Get Started',
-      pages: [pageFactory.getStartedPage()],
+      name: user.firstName,
+      pages: [pageFactory.createGetStartedPage()],
       userId: user.id,
     })
   },
