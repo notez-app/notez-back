@@ -89,7 +89,6 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
           throw new UserNotFoundError()
 
         default:
-          console.log('HERE!!!')
           throw error
       }
     }
