@@ -18,10 +18,9 @@ module.exports = ({ sequelizeModels }) => ({
     const { Page } = sequelizeModels
 
     const dbPages = await Page.findAll({
-      where: {
-        workspaceId,
-      },
+      where: { workspaceId },
       include: withBlocks ? [...Page.BlockSubtypes] : [],
+      rejectOnEmpty: true,
     })
 
     return dbPages.map((dbPage) => fromDatabase(dbPage, { withBlocks }))
