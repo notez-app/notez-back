@@ -7341,6 +7341,13 @@ sequelize-pool@^2.3.0:
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-2.3.0.tgz#64f1fe8744228172c474f530604b6133be64993d"
   integrity sha512-Ibz08vnXvkZ8LJTiUOxRcj1Ckdn7qafNZ2t59jYHMX1VIebTAOYefWdRYFt6z6+hy52WGthAHAoLc9hvk3onqA==
 
+sequelize-slugify@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/sequelize-slugify/-/sequelize-slugify-0.7.0.tgz#61b02f6dd18f7abecea986cb70b96c026b014018"
+  integrity sha512-utUoUCZc915I2CmvLdxZ555oiVcSKj6j2eM/hdKSpWh4owCyqYJWxdb6InuPunQgZ0kZ6p2aCZk4vQTYIFergQ==
+  dependencies:
+    sluglife "^0.9.7"
+
 sequelize@^5.14.0:
   version "5.18.4"
   resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-5.18.4.tgz#1e2c7eabe4c554fa257a0115fad39f271bd56150"
@@ -7457,7 +7464,7 @@ slide@^1.1.6:
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
   integrity sha1-VusCfWW00tzmyy4tMsTUr8nh1wc=
 
-sluglife@^0.9.8:
+sluglife@^0.9.7, sluglife@^0.9.8:
   version "0.9.8"
   resolved "https://registry.yarnpkg.com/sluglife/-/sluglife-0.9.8.tgz#82e9bbfea8897fd102af416d890f59fb59f26ea0"
   integrity sha512-tJ5KZ9E8ApCFDIQqKbqXVhi4FdTjWCKg1jeEB8M7UxRaT3Sk9Al3GwFfltVV6JJhTZaHrONthNmWtZMExJNRqQ==

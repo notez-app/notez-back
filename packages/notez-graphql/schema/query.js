@@ -20,6 +20,7 @@ module.exports = gql`
   }
 
   type Workspace {
+    slug: String!
     name: String!
     pages: [Page]!
   }

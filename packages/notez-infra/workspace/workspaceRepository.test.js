@@ -12,7 +12,7 @@ describe('Workspace :: workspaceRepository', () => {
 
   describe('#store', () => {
     describe('when pages creation succeed', () => {
-      it('creates the workspace with all its pages and blocks', async () => {
+      it('creates the workspace with a slug and all its pages and blocks', async () => {
         const pageRepository = {
           storeMultiple: jest.fn((pages) => pages),
         }
@@ -33,6 +33,7 @@ describe('Workspace :: workspaceRepository', () => {
 
         expect(workspace.id).toBeTruthy()
         expect(workspace.name).toEqual('The Workspace')
+        expect(workspace.slug).toEqual('the-workspace')
 
         expect(pageRepository.storeMultiple).toHaveBeenCalledWith([])
 
