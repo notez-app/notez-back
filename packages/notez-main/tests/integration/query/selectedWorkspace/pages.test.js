@@ -9,6 +9,7 @@ describe('Query :: selectedWorspace/pages', () => {
     {
       selectedWorkspace {
         pages {
+          slug
           icon
           name
           blocks {
@@ -32,6 +33,7 @@ describe('Query :: selectedWorspace/pages', () => {
         selectedWorkspace: {
           pages: expect.arrayContaining([
             expect.objectContaining({
+              slug: expect.any(String),
               name: 'Get Started',
               icon: '⛰',
             }),

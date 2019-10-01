@@ -6,7 +6,6 @@ module.exports = gql`
   type Query {
     currentUser: User! @auth
     selectedWorkspace: Workspace! @auth
-    # workspace(id: Int): Workspace
   }
 
   type AuthToken {
@@ -26,6 +25,7 @@ module.exports = gql`
   }
 
   type Page {
+    slug: String!
     icon: String
     name: String!
     blocks: [Block]!

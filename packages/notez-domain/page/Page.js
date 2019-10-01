@@ -4,6 +4,7 @@ const Block = require('./block/Block')
 
 const Page = attributes({
   id: Number,
+  uuid: String,
   icon: {
     type: String,
     empty: true,

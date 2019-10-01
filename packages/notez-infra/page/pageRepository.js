@@ -44,10 +44,13 @@ const toDatabaseTextBlock = ({ content }) => ({ content })
 const fromDatabase = (dbPage, { withBlocks }) =>
   new Page({
     id: dbPage.id,
+    uuid: cleanUuid(dbPage.uuid),
     name: dbPage.name,
     icon: dbPage.icon,
     ...(withBlocks ? { blocks: fromDatabaseBlocks(dbPage) } : null),
   })
+
+const cleanUuid = (uuid) => uuid.replace(/\-/g, '')
 
 const fromDatabaseBlocks = (dbPage) => {
   const textBlocks = dbPage.textBlocks.map(fromDatabaseTextBlock)
