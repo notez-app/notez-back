@@ -20,10 +20,7 @@ exports.createTestClient = () => {
       variables,
     }
 
-    return clientWithHeaders
-      .send(data)
-      .expect(200)
-      .then(({ body }) => body)
+    return clientWithHeaders.send(data).then(({ body }) => body)
   }
 
   return {

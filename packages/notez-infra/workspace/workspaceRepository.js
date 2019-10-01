@@ -28,6 +28,7 @@ module.exports = ({ sequelizeModels, pageRepository }) => ({
     const dbUser = await User.findByPk(userId, {
       attributes: [],
       include: [User.SelectedWorkspace],
+      rejectOnEmpty: true,
     })
 
     return fromDatabase(dbUser.selectedWorkspace)
@@ -36,12 +37,14 @@ module.exports = ({ sequelizeModels, pageRepository }) => ({
 
 const toDatabase = (workspace) => ({
   name: workspace.name,
+  slug: workspace.slug,
   userId: workspace.userId,
 })
 
 const fromDatabase = (dbWorkspace, pages = []) =>
   new Workspace({
     id: dbWorkspace.id,
+    slug: dbWorkspace.slug,
     name: dbWorkspace.name,
     userId: dbWorkspace.userId,
     pages,

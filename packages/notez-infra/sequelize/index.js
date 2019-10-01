@@ -15,9 +15,7 @@ Sequelize.useCLS(namespace)
 
 const sequelize = new Sequelize({
   ...databaseConfig,
-  define: {
-    rejectOnEmpty: true,
-  },
+  define: {},
 })
 
 const models = loadModels({ sequelize })

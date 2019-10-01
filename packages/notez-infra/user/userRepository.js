@@ -42,7 +42,9 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   },
 
   async _update(user) {
-    const dbUser = await this._getByFinder('findByPk', user.id)
+    const dbUser = await this._getByFinder('findByPk', user.id, {
+      rejectOnEmpty: true,
+    })
 
     if (user.password) {
       user = await this._withEncryptedPassword(user)
@@ -54,7 +56,10 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
   },
 
   async fromAuth({ email, password }) {
-    const dbUser = await this._getByFinder('findOne', { where: { email } })
+    const dbUser = await this._getByFinder('findOne', {
+      where: { email },
+      rejectOnEmpty: true,
+    })
 
     const isPasswordRight = await cryptoService.compare(
       password,
@@ -73,7 +78,9 @@ module.exports = ({ sequelizeModels, cryptoService }) => ({
       throw new UserNotFoundError()
     }
 
-    const dbUser = await this._getByFinder('findByPk', id)
+    const dbUser = await this._getByFinder('findByPk', id, {
+      rejectOnEmpty: true,
+    })
 
     return fromDatabase(dbUser)
   },

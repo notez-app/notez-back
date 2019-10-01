@@ -39,6 +39,9 @@ describe('Page :: pageRepository', () => {
       expect(pages[0].id).toBeTruthy()
       expect(pages[1].id).toBeTruthy()
 
+      expect(pages[0].uuid).toBeTruthy()
+      expect(pages[1].uuid).toBeTruthy()
+
       expect(pages[0].blocks[0].content).toEqual('abc')
       expect(pages[0].blocks[1].content).toEqual('def')
 
@@ -52,6 +55,24 @@ describe('Page :: pageRepository', () => {
       ).resolves.toEqual(4)
       await expect(sequelizeModels.TextBlock.count()).resolves.toEqual(4)
     })
+
+    it('removes dashes from uuid', async () => {
+      const user = await factory.create('user')
+      const workspace = await factory.create('workspace', { userId: user.id })
+
+      const pageRepository = makePageRepository()
+
+      const pages = await pageRepository.storeMultiple([
+        new Page({
+          name: 'The one page',
+          icon: '1️⃣',
+          workspaceId: workspace.id,
+          blocks: [new Blocks.Text({ content: 'abc' })],
+        }),
+      ])
+
+      expect(pages[0].uuid).not.toContain('-')
+    })
   })
 
   describe('#getAllFromWorkspace', () => {
@@ -64,7 +85,7 @@ describe('Page :: pageRepository', () => {
 
       pageRepository = makePageRepository()
 
-      const pages = await pageRepository.storeMultiple([
+      await pageRepository.storeMultiple([
         new Page({
           name: 'The one page',
           icon: '1️⃣',

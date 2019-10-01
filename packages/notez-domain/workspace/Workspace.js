@@ -3,6 +3,7 @@ const { Page } = require('../page')
 
 const Workspace = attributes({
   id: { type: Number, required: true },
+  slug: { type: String, required: true },
   name: { type: String, required: true },
   pages: {
     required: true,

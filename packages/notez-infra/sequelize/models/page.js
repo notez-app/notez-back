@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       icon: DataTypes.STRING,
       workspaceId: DataTypes.INTEGER,
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
     },
     {}
   )
