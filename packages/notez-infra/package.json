@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@notez/domain": "0.0.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "change-case": "^3.1.0",
     "cls-hooked": "^4.2.2",
     "pg": "^7.12.0",
